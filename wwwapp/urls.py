@@ -11,13 +11,13 @@ from .auth import login_view, finish_merge_verification
 import wwwforms.views as wwwforms_views
 
 urlpatterns = [
-    path(
-        'favicon.ico',
-        RedirectView.as_view(
-            url=staticfiles_storage.url('images/favicon.ico'),
-            permanent=False),
-        name="favicon"
-    ),
+    # path(
+    #     'favicon.ico',
+    #     RedirectView.as_view(
+    #         url=staticfiles_storage.url('images/favicon.ico'),
+    #         permanent=False),
+    #     name="favicon"
+    # ),
     path('tinymce/', include('tinymce.urls')),
     path('admin/', admin.site.urls),
     path('gallery/', include('gallery.urls')),

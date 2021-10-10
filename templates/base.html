@@ -6,7 +6,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Wakacyjne Warsztaty Wielodyscyplinarne">
+    <meta name="author" content="Ogólnopolska Sesja Studentów Matematyki">
 
     <meta name="theme-color" content="#46342f">
 
@@ -14,23 +14,22 @@
     <meta property="og:locale" content="PL_pl" />
     <meta property="og:type" content="website" />
     <meta property="fb:app_id" content="1522345984699744" />
-    <meta property="og:image" content="http{% if request.is_secure %}s{% endif %}://{{ request.get_host }}{% static 'images/fb_image-cut.jpg' %}">
     <meta property="og:description"
           content="WWW to coroczne wydarzenie dla licealistów zainteresowanych matematyką, informatyką, fizyką lub astronomią.">
     {% if title %}
-    <title>{{ title }} - WWW</title>
-    <meta property="og:title" content="{{ title }} - WWW" />
+    <title>{{ title }} - OSSM</title>
+    <meta property="og:title" content="{{ title }} - OSSM" />
     {% else %}
-    <title>Wakacyjne Warsztaty Wielodyscyplinarne</title>
-    <meta property="og:title" content="Wakacyjne Warsztaty Wielodyscyplinarne" />
+    <title>OSSM</title>
+    <meta property="og:title" content="OSSM" />
     {% endif %}
 
-    <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon-180x180.png' %}">
-    <link rel="icon" type="image/png" sizes="512x512" href="{% static 'images/favicon-512x512.png' %}">
-    <link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/favicon-192x192.png' %}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
+    <!-- <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}"> -->
+    <!-- <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/favicon-180x180.png' %}"> -->
+    <!-- <link rel="icon" type="image/png" sizes="512x512" href="{% static 'images/favicon-512x512.png' %}"> -->
+    <!-- <link rel="icon" type="image/png" sizes="192x192" href="{% static 'images/favicon-192x192.png' %}"> -->
+    <!-- <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}"> -->
+    <!-- <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}"> -->
 
     <link href="{% static 'dist/main.css' %}" rel="stylesheet">
     <link href="{% static 'dist/fonts.css' %}" rel="stylesheet">
@@ -41,7 +40,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
       <div class="container">
         <a class="navbar-brand d-block d-lg-none" href="{% url 'index' %}">
-            <img src="{% static 'images/logo_transparent.png' %}" srcset="{% static 'images/logo_transparent.svg' %}" width="200" alt="Wakacyjne Warsztaty Wielodyscyplinarne">
+            <img src="{% static 'images/logo_transparent.png' %}" srcset="{% static 'images/logo_transparent.svg' %}" width="200" alt="Ogólnopolska Sesja Studentów Matematyki">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
@@ -49,7 +48,7 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <a class="navbar-brand d-none d-lg-block" href="{% url 'index' %}">
-            <img src="{% static 'images/logo_transparent.png' %}" srcset="{% static 'images/logo_transparent.svg' %}" width="300" alt="Wakacyjne Warsztaty Wielodyscyplinarne">
+            <img src="{% static 'images/logo_transparent.png' %}" srcset="{% static 'images/logo_transparent.svg' %}" width="300" alt="Ogólnopolska Sesja Studentów Matematyki">
           </a>
           <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -113,22 +112,7 @@
             {% endif %}
 
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownArticles" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Artykuły
-              </a>
-              <div class="dropdown-menu" aria-labelledby="navbarDropdownArticles">
-                {% for article in articles_on_menubar %}
-                  <a class="dropdown-item" href="{% url 'article' article.name %}">{{ article.title }}</a>
-                {% endfor %}
-                {% if perms.wwwapp.add_article %}
-                  <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="{% url 'article_add' %}">Nowy artykuł</a>
-                {% endif %}
-              </div>
-            </li>
-
-            <li class="nav-item dropdown">
-              <a class="nav-link" href="{% url 'mydata_status' %}">Kwalifikacja</a>
+              <a class="nav-link" href="{% url 'mydata_status' %}">Mój profil</a>
             </li>
           </ul>
 
@@ -142,50 +126,39 @@
         </div>
       </div>
     </nav>
-
-    <main role="main" class="container {% if selected_year %}with-footer-margin{% endif %}">
-      {% if messages %}
-        {% for message in messages %}
-          <div class="alert{% for tag in message.tags|split:" " %} alert-{{ tag }}{% endfor %} mt-3">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            {{ message }}
-          </div>
-        {% endfor %}
-      {% endif %}
-
-      {% block content %}{% endblock %}
-    </main>
-
-    {% if selected_year %}
-    <footer class="footer">
-      <div class="container">
-        <nav class="year-navigation" aria-label="Wybór edycji">
-          <ul class="pagination">
-            {% if request.resolver_match.view_name == 'program' %}
-              <li class="page-item">
-                <a class="page-link" href="{% url 'article' 'historia' %}">
-                  &laquo; Starsze
-                </a>
-              </li>
-            {% endif %}
-            {% for year in years %}
-              <li class="page-item {% if year == selected_year %}active{% endif %}">
-                <a class="page-link" href="{% url request.resolver_match.view_name year.pk %}">
-                  {% if year == current_year %}
-                    <b>{{ year }}</b>
-                  {% else %}
-                    {{ year }}
-                  {% endif %}
-                </a>
-              </li>
-            {% endfor %}
-          </ul>
-        </nav>
-      </div>
-    </footer>
+    {% if is_index %}
+      <main role="main" class="container with-footer-padding in-index">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert{% for tag in message.tags|split:" " %} alert-{{ tag }}{% endfor %} mt-3">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+        
+        {% block index_content %}{% endblock %}
+      </main>
+      {% else %}
+      <main role="main" class="container with-footer-padding">
+        {% if messages %}
+          {% for message in messages %}
+            <div class="alert{% for tag in message.tags|split:" " %} alert-{{ tag }}{% endfor %} mt-3">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              {{ message }}
+            </div>
+          {% endfor %}
+        {% endif %}
+        
+        {% block content %}{% endblock %}
+      </main>
     {% endif %}
+    <footer class="footer">
+    </footer>
 
     <div id="csrftoken" style="display: none;">
       {% csrf_token %}

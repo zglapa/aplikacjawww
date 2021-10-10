@@ -1022,8 +1022,19 @@ def as_article(name):
         return article_view(request, name)
     return page
 
+def index_view(request):
+    context = {}
 
-index_view = as_article("index")
+    title = "OSSM"
+    is_index = True
+    
+    bleach_args = get_bleach_default_options().copy()
+
+    context['title'] = title
+    context['is_index'] = is_index
+
+    return render(request, 'index.html', context)
+
 template_for_workshop_page_view = as_article("template_for_workshop_page")
 
 
