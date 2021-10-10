@@ -61,6 +61,12 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'program' current_year.pk %}">Program</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'news' %}">Aktualności</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'contact_information' %}">Kontakt</a>
+            </li>
 
             {% if resources %}
             <li class="nav-item dropdown">
