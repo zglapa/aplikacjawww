@@ -4,6 +4,7 @@ import json
 import mimetypes
 import os
 import sys
+import unicodedata
 from urllib.parse import urljoin
 
 import bleach
@@ -34,11 +35,11 @@ from django_bleach.utils import get_bleach_default_options
 from django_sendfile import sendfile
 
 from wwwforms.models import Form, FormQuestionAnswer, FormQuestion, pesel_extract_date
-from .forms import ArticleForm, UserProfileForm, UserForm, \
+from .forms import ArticleForm, NewsPostForm, UserProfileForm, UserForm, \
     UserProfilePageForm, WorkshopForm, UserCoverLetterForm, WorkshopParticipantPointsForm, \
     TinyMCEUpload, SolutionFileFormSet, SolutionForm
 from .models import Article, UserProfile, Workshop, WorkshopParticipant, \
-    WorkshopUserProfile, ResourceYearPermission, Camp, Solution
+    WorkshopUserProfile, ResourceYearPermission, Camp, Solution, NewsPost
 from .templatetags.wwwtags import qualified_mark
 
 
@@ -78,7 +79,7 @@ def program_view(request, year):
     year = get_object_or_404(Camp, pk=year)
 
     context = {}
-    context['title'] = 'Program %s' % str(year)
+    context['title'] = 'Program'
 
     if request.user.is_authenticated:
         user_participation = set(year.workshops.filter(participants__user=request.user).all())
@@ -921,8 +922,6 @@ def article_view(request, name):
     can_edit_article = request.user.has_perm('wwwapp.change_article')
 
     bleach_args = get_bleach_default_options().copy()
-    if art.name == 'index':
-        bleach_args['tags'] += ['iframe']  # Allow iframe on main page for Facebook embed
     article_content_clean = mark_safe(bleach.clean(art.content, **bleach_args))
 
     context['title'] = title
@@ -1028,12 +1027,60 @@ def index_view(request):
     title = "OSSM"
     is_index = True
     
-    bleach_args = get_bleach_default_options().copy()
-
     context['title'] = title
     context['is_index'] = is_index
 
     return render(request, 'index.html', context)
+
+def news_view(request):
+    context = {}
+
+    can_edit_post = request.user.has_perm('wwwapp.change_article')
+    title = 'Aktualności'
+    posts = NewsPost.objects.all()
+    
+    context['title'] = title
+    context['posts'] = posts.order_by('date_posted').reverse()
+    context['can_edit'] = can_edit_post
+    return render(request, 'news.html', context)
+
+@login_required()
+def news_post_edit_view(request, name=None):
+    context = {}
+    new = (name is None)
+    if new:
+        post = None
+        title = 'Nowy post'
+        has_perm = request.user.has_perm('wwwapp.add_article')
+    else:
+        post = get_object_or_404(NewsPost, name=name)
+        title = post.title
+        has_perm = request.user.has_perm('wwwapp.change_article')
+
+    if not has_perm:
+        return HttpResponseForbidden()
+
+    if request.method == 'POST':
+        form = NewsPostForm(request.user, request.POST, instance=post)
+        if form.is_valid():
+            news_post = form.save(commit=False)
+            news_post.author = request.user
+            news_post.name = unicodedata.normalize('NFKD', news_post.title).encode('ascii', 'ignore').decode('ascii')
+            news_post.save()
+            form.save_m2m()
+            messages.info(request, 'Zapisano.', extra_tags='auto-dismiss')
+            return redirect('news')
+    else:
+        form = NewsPostForm(request.user, instance=post)
+
+    context['title'] = title
+    context['post'] = post
+    context['form'] = form
+
+    return render(request, 'postedit.html', context)
+
+
+contact_information_view = as_article("directions")
 
 template_for_workshop_page_view = as_article("template_for_workshop_page")
 

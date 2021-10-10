@@ -11,7 +11,7 @@ $primary-main: rgba(255, 255, 255, 0.75);
 $background: #1c1f3b;
 
 // Headings font
-$headings-font-family: "Open sans", Helvetica, Arial;
+$headings-font-family: "Raleway", "Open sans", Helvetica, Arial;
 
 // Navbar spacing
 $navbar-nav-link-padding-x: 0.875rem;
@@ -158,7 +158,7 @@ h1 {
 // Space between the header and content
 // (it cannot be put on the header itself, as on the main page we want the big logo to touch the navbar)
 h1, .heading {
-  // margin-top: 20px;
+  margin-top: 20px;
   padding-top: 20px;
 }
 
@@ -311,4 +311,25 @@ nav.year-navigation .page-item {
   font-family: 'Raleway', sans-serif;
   font-size: 22px;
   text-align: justify;
+}
+
+/* News */
+.news-section {
+  background: $light;
+  padding: 10px 20px;
+  border: 1px solid $primary;
+  border-radius: 3px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.post-title {
+  color: $primary;
+}
+.post-content {
+  white-space: pre-line;
+}
+.post-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid $primary;
 }
