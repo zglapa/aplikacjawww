@@ -24,7 +24,7 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 
 from .templatetags.wwwtags import qualified_mark
 from .models import UserProfile, Article, Workshop, WorkshopCategory, \
-    WorkshopType, WorkshopUserProfile, WorkshopParticipant, Camp, Solution, SolutionFile
+    WorkshopType, WorkshopUserProfile, WorkshopParticipant, Camp, Solution, SolutionFile, NewsPost
 
 
 class InitializedTinyMCE(tinymce.widgets.TinyMCE):
@@ -530,3 +530,27 @@ class MailFilterForm(Form):
     @property
     def filter_name(self):
         return self.filter_methods[self.cleaned_data['filter']][1]
+
+class NewsPostForm(ModelForm):
+
+    class Meta:
+        model = NewsPost
+        fields = ['title', 'content']
+        labels = {
+            'title': 'Tytuł',
+            'content': 'Treść',
+        }
+
+    def __init__(self, user, *args, **kwargs):
+        super(ModelForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.include_media = False
+
+        layout = []
+        layout.append('title')
+        layout.append('content')
+        layout.append(FormActions(
+            StrictButton('Zapisz', type='submit', css_class='btn-outline-primary btn-lg mx-1 my-3'),
+            css_class='text-right',
+        ))
+        self.helper.layout = Layout(*layout)

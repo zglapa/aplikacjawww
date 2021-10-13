@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block content %}
+    <h1>Aktualności</h1>
+    {% for post in posts %}
+        <article class="news-section">
+            <div class="news-body">
+                <div class="post-metadata">
+                    <small class="text-muted">{{ post.date_posted|date:"j F Y H:i" }}</small>
+                </div>
+                {% if can_edit %}
+                    <h2><a class="post-title" href="{% url 'post_edit' post.name %}">{{ post.title }}</a></h2>
+                {% else %}
+                    <h2><a class="post-title">{{ post.title }}</a></h2>
+                {% endif %}
+                <p class="post-content">{{ post.content }}</p>
+            </div>
+        </article>
+    {% endfor %}
+    {% if can_edit %}
+        <a class="btn btn-outline-primary btn-sm" role="button" href="{% url 'post_edit'%}">
+            Dodaj post
+        </a>
+    {% endif %}
+{% endblock %}

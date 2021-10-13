@@ -1,11 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway&display=swap');
+
 // Theme colors
-$primary: #46342f;
-$dark: #01093a;
-$light: #eae3c5;
-$light-darker: #fef6c5;
+$primary: #000000;
+$dark: $primary;
+$light: #ffffff;
+$light-darker: rgb(202, 202, 202);
+// $primary-main: rgb(255, 255, 255);
+// $background: rgb(255, 255, 255);
+$primary-main: rgba(255, 255, 255, 0.75);
+$background: #1c1f3b;
 
 // Headings font
-$headings-font-family: "Open sans", Helvetica, Arial;
+$headings-font-family: "Raleway", "Open sans", Helvetica, Arial;
 
 // Navbar spacing
 $navbar-nav-link-padding-x: 0.875rem;
@@ -121,7 +127,8 @@ $theme-colors: (
 }
 
 // Prevent long article names from breaking the navbar layout by allowing line breaks on small devices
-@include media-breakpoint-down(md) {  // This should match the navbar collapse breakpoint
+@include media-breakpoint-down(md) {  // This should match the navbar collapse breakpoin
+  t
   .dropdown-item {
     white-space: normal;
   }
@@ -130,7 +137,18 @@ $theme-colors: (
 // Stop the navbar from moving around depending on whether the scrollbar is visible or not
 body {
   overflow-y: scroll;
+  background: $background;
 }
+// Make the main section below navbar without the scrolling and under it when on scroll
+main {
+  margin-top: 0px;
+  padding-top: 20px;
+  z-index: 1;
+  background: $primary-main;
+  min-height: 100vh;
+  padding-top: 100px;
+}
+
 
 // Underline main header
 h1 {
@@ -141,6 +159,7 @@ h1 {
 // (it cannot be put on the header itself, as on the main page we want the big logo to touch the navbar)
 h1, .heading {
   margin-top: 20px;
+  padding-top: 20px;
 }
 
 // Prevent user-inserted images from breaking the layout
@@ -159,9 +178,24 @@ legend {
   border-bottom: 1px solid #e5e5e5;
 }
 
+.login-header {
+  margin-top: 0px !important;
+}
+.mce-content-body {
+  background-color: white;
+}
 
 
 /* TODO: everything below can probably be in its own file if I figure out how to get access to SCSS vars there */
+
+/* Navbar */
+// Make the navbar follow page scrolling
+.navbar {
+  position: fixed;
+  display: block;
+  z-index: 2;
+  width: 100%;
+}
 
 /* Navbar login button */
 .navbar .btn {
@@ -207,17 +241,18 @@ legend {
 html {
   position: relative;
   min-height: 100%;
+  background-color: white;
 }
-.with-footer-margin {
-  margin-bottom: 80px; /* Margin bottom by footer height */
+.with-footer-padding {
+  padding-bottom: 60px; /* Padding bottom by footer height */
 }
 .footer {
   position: absolute;
   bottom: 0;
   width: 100%;
-  height: 60px; /* Set the fixed height of the footer here */
-  line-height: 60px; /* Vertically center the text there */
-  background-color: #f5f5f5;
+  height: 40px; /* Set the fixed height of the footer here */
+  line-height: 40px; /* Vertically center the text there */
+  background-color: $primary;
 }
 
 /* Year navigation pagination in the footer */
@@ -227,7 +262,7 @@ nav.year-navigation {
 }
 
 nav.year-navigation .pagination {
-    display: block;
+  display: block;
 	margin: 0;
 	white-space: nowrap; /* Required for scrolling (don't wrap automatically) */
 }
@@ -239,5 +274,62 @@ nav.year-navigation .page-item {
 
 // Increase width of results popover
 .popover {
-    max-width: 100%;
+  max-width: 100%;
+}
+
+/* Index page style */
+.in-index {
+  background: $background;
+  padding-top: 50px;
+}
+.main-image {
+  width: 100% !important;
+  margin-bottom: 10px;
+}
+// Fix h1 styling from articles
+.header-block > h1{
+  border-bottom: 0;
+  padding-top: 0;
+}
+// Make the content blocks for text separate and visible upon dark background
+.content-block {
+  background: $primary-main;
+  padding: 20px;
+  margin-top: 20px;
+}
+// Make the header block primary colored
+.header-block {
+  color: $light;
+  background: $primary;
+  font-family: 'Raleway', sans-serif;
+  font-size: 30px;
+  font-weight: 500;
+  text-shadow: 1px 1px 30px $light;
+}
+// Make text-block font bigger and more readable
+.text-block {
+  font-family: 'Raleway', sans-serif;
+  font-size: 22px;
+  text-align: justify;
+}
+
+/* News */
+.news-section {
+  background: $light;
+  padding: 10px 20px;
+  border: 1px solid $primary;
+  border-radius: 3px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+.post-title {
+  color: $primary;
+}
+.post-content {
+  white-space: pre-line;
+}
+.post-metadata {
+  padding-bottom: 1px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid $primary;
 }
