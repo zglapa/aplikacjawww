@@ -8,9 +8,9 @@ from django.db.models.base import Model
 from django.forms.models import BaseInlineFormSet
 from django.http.request import HttpRequest
 
-from .models import Article, NewsPost, UserProfile, ArticleContentHistory, \
+from .models import Article, UserProfile, ArticleContentHistory, \
     WorkshopCategory, Workshop, WorkshopType, WorkshopParticipant, \
-    WorkshopUserProfile, ResourceYearPermission, Camp, Solution, SolutionFile, NewsPost
+    WorkshopUserProfile, ResourceYearPermission, Camp, Solution, SolutionFile
 
 admin.site.unregister(User)
 
@@ -191,4 +191,3 @@ admin.site.register(WorkshopUserProfile)
 admin.site.register(Solution, SolutionAdmin)
 
 admin.site.register(ResourceYearPermission)
-admin.site.register(NewsPost)

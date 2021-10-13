@@ -17,6 +17,7 @@ from django.utils import timezone
 from django.utils.deconstruct import deconstructible
 from django.utils.functional import cached_property
 
+
 # This is a separate directory for Django-controlled uploaded files.
 # Unlike /media, this directory is not directly externally accesible,
 # but it still needs to be configured in nginx (with internal;) for
@@ -599,13 +600,3 @@ class ResourceYearPermission(models.Model):
     class Meta:
         permissions = [('access_all_resources', 'Access all resources'), ]
         ordering = ['year', 'display_name']
-
-class NewsPost(models.Model):
-    title = models.CharField(max_length=100)
-    content = models.TextField()
-    date_posted = models.DateTimeField(default=timezone.now())
-    author = models.ForeignKey(User, null=True, default=None, on_delete=models.SET_NULL)
-    name = models.CharField(max_length=100, default='post')
-    
-    def __str__(self) -> str:
-        return self.title

@@ -11,13 +11,13 @@ from .auth import login_view, finish_merge_verification
 import wwwforms.views as wwwforms_views
 
 urlpatterns = [
-    # path(
-    #     'favicon.ico',
-    #     RedirectView.as_view(
-    #         url=staticfiles_storage.url('images/favicon.ico'),
-    #         permanent=False),
-    #     name="favicon"
-    # ),
+    path(
+        'favicon.ico',
+        RedirectView.as_view(
+            url=staticfiles_storage.url('images/favicon.ico'),
+            permanent=False),
+        name="favicon"
+    ),
     path('tinymce/', include('tinymce.urls')),
     path('admin/', admin.site.urls),
     path('gallery/', include('gallery.urls')),
@@ -67,10 +67,6 @@ urlpatterns = [
     path('resource_auth/', views.resource_auth_view, name='resource_auth'),
     path('robots.txt', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
     path('', views.index_view, name='index'),
-    path('contact_information/', views.contact_information_view, name='contact_information'),
-    path('news/', views.news_view, name='news'),
-    path('post/<slug:name>/edit/', views.news_post_edit_view, name='post_edit'),
-    path('post/edit/', views.news_post_edit_view, name='post_edit'),    
 ]
 
 if settings.DEBUG:
