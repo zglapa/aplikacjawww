@@ -1,8 +1,26 @@
 {% extends "base.html" %}
 {% load wwwtags %}
+{% load crispy_forms_tags %}
 
 {% block content %}
     <h2 class="heading text-center m-5">Wybierz metodę logowania: </h2>
+    <div class="content-section text-center" style="margin-bottom: 20px;">
+      <form method="POST">
+          {% csrf_token %}
+          <fieldset class="form-group">
+              {{ form|crispy }}
+          </fieldset>
+          <div class="form-group">
+              <button class="btn btn-outline-info"  type="submit">Zaloguj</button>
+          </div>
+      </form>
+      <div class="border-top pt-3">
+          <small class="text-muted">
+              Nie masz jeszcze konta? 
+              <a class="ml-2" href="#">Zarejestruj się.</a>
+          </small>
+      </div>
+  </div>
     <div class="row">
       <div class="col-md-6" style="padding-bottom: 2em;">
         {% include "_socialButton.html" with provider="facebook" next=request.GET.next only %}
